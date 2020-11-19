@@ -37,7 +37,7 @@ public class GetWikiPageLinks
         foreach (Match match in words)
         {
             var regexMatch = match.Groups[1].ToString();
-            if (!regexMatch.Contains('#') && !regexMatch.Contains(':'))
+            if (!regexMatch.Contains('#') && !regexMatch.Contains(':') && regexMatch != "Main_Page")
             {
                 listOfLinks.Add(regexMatch);
             }

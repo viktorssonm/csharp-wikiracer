@@ -9,7 +9,12 @@ namespace wikiracer
             Console.WriteLine("Hello World!");
             // GetWikiPageLinks g = new GetWikiPageLinks();
             GetWikiLadder ladderCreater = new GetWikiLadder();
-            ladderCreater.FindWikiLadder("test", "test");
+            var test = ladderCreater.FindWikiLadder("Milkshake", "Gene");
+
+            foreach (string link in test)
+            {
+                System.Console.WriteLine(link);
+            }
         }
     }
 }
