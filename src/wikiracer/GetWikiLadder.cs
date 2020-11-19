@@ -36,7 +36,6 @@ public class GetWikiLadder
             // If end page is in this set, the ladder is found. Return.
             if (linksFromLastPage.Contains(endPage))
             {
-                System.Console.WriteLine("Ladder found!");
                 ladderWithHighestPriority.ladderList.Add(endPage);
                 return ladderWithHighestPriority.ladderList;
             }
@@ -49,10 +48,12 @@ public class GetWikiLadder
                 {
                     // Create copy of  ladder.
                     Ladder newLadder = new Ladder(ladderWithHighestPriority);
+                    // Put neighbor page at end of copied ladder.
                     newLadder.ladderList.Add(neighBourPage);
-                    // Set priority of new ladder.
+                    // Set priority of new ladder. By comparing links on last page with links on end page.
                     HashSet<string> linksOnNeighBourPage = linkClient.GetListOfLinksForWord(neighBourPage);
                     int counter = 0;
+
                     foreach (string link in linksOnNeighBourPage)
                     {
                         if (linksOnEndPage.Contains(link))
@@ -60,24 +61,18 @@ public class GetWikiLadder
                             counter++;
                         }
                     }
+                    // Inverse the priority to work with binary three with minimum value first.
                     counter *= -1;
                     newLadder.priority = counter;
                     pq.Enqueue(newLadder);
                     visitedPages.Add(neighBourPage);
                 }
-                
+
             }
-
-
-
-
         }
-
-
-
-
-
-        return null;
+        // In case this point is reached no matching ladder was found, so return empty list.
+        List<string> empty = new List<string>();
+        return empty;
 
     }
 }

@@ -8,10 +8,12 @@ public class Ladder : IComparable<Ladder>
         ladderList = new List<string>();
     }
 
-    public Ladder(Ladder previousLadder) 
+    // Copy constructor.
+    public Ladder(Ladder previousLadder)
     {
         this.ladderList = new List<string>();
-        foreach(string l in previousLadder.ladderList) {
+        foreach (string l in previousLadder.ladderList)
+        {
             ladderList.Add(l);
         }
         this.priority = previousLadder.priority;
