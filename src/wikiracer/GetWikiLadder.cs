@@ -15,26 +15,22 @@ public class GetWikiLadder
         // Client for fetching links from wikipedia.
         GetWikiPageLinks linkClient = new GetWikiPageLinks();
 
-        //Get links for startpage
-        HashSet<string> linksOnStartPage = linkClient.GetListOfLinksForWord(startPage);
+        //Get links for endPage
+        HashSet<string> linksOnEndPage = linkClient.GetListOfLinksForWord(endPage);
 
         // Create add a ladder containg start page to queue.
         Ladder startLadder = new Ladder();
         startLadder.ladderList.Add(startPage);
+        startLadder.priority = 1;
         pq.Enqueue(startLadder);
-        visitedPages.Add(startPage);
 
         while (pq.count > 0)
         {
             //Deque ladder with highest priority.
             Ladder ladderWithHighestPriority = pq.Dequeue();
-
             string lastLinkFromLadder = ladderWithHighestPriority.ladderList[ladderWithHighestPriority.ladderList.Count - 1];
 
-            visitedPages.Add(lastLinkFromLadder);
-
             HashSet<string> linksFromLastPage = linkClient.GetListOfLinksForWord(lastLinkFromLadder);
-            System.Console.WriteLine(lastLinkFromLadder);
 
 
             // If end page is in this set, the ladder is found. Return.
@@ -52,25 +48,24 @@ public class GetWikiLadder
                 if (!visitedPages.Contains(neighBourPage))
                 {
                     // Create copy of  ladder.
-                    Ladder newLadder = ladderWithHighestPriority;
+                    Ladder newLadder = new Ladder(ladderWithHighestPriority);
                     newLadder.ladderList.Add(neighBourPage);
                     // Set priority of new ladder.
                     HashSet<string> linksOnNeighBourPage = linkClient.GetListOfLinksForWord(neighBourPage);
                     int counter = 0;
                     foreach (string link in linksOnNeighBourPage)
                     {
-                        if (linksOnStartPage.Contains(link))
+                        if (linksOnEndPage.Contains(link))
                         {
                             counter++;
                         }
-
                     }
-
-
                     counter *= -1;
                     newLadder.priority = counter;
                     pq.Enqueue(newLadder);
+                    visitedPages.Add(neighBourPage);
                 }
+                
             }
 
 
