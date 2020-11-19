@@ -7,45 +7,24 @@ public class GetWikiLadder
     {
 
         HashSet<string> visitedPages = new HashSet<string>();
-
-        GetWikiPageLinks client = new GetWikiPageLinks();
-        HashSet<string> startWords = client.GetListOfLinksForWord(startPage);
-        Ladder start = new Ladder(startWords, client);
-
-        start.ladder.Add(startPage);
-
         PriorityQueue<Ladder> pq = new PriorityQueue<Ladder>();
-        pq.Enqueue(start);
-        visitedPages.Add(startPage);
 
-        while (pq.count > 0)
-        {
+        Ladder test = new Ladder();
+        Ladder test2 = new Ladder();
+        Ladder test3 = new Ladder();
+        Ladder test4 = new Ladder();
+        pq.Enqueue(test);
+        pq.Enqueue(test2);
+        pq.Enqueue(test3);
+        pq.Enqueue(test4);
 
-            Ladder firstLadder = pq.Dequeue();
-            string lastPageOnLadder = firstLadder.ladder[firstLadder.ladder.Count - 1];
-            HashSet<string> linksForLastPage = client.GetListOfLinksForWord(startPage);
+        test.priority = -1;
+        test2.priority = -2;
+        test3.priority = -3;
+        test4.priority = -4;
 
-            if (linksForLastPage.Contains(endPage))
-            {
-                System.Console.WriteLine("Ladder found");
-                List<String> ladder = firstLadder.ladder;
-                ladder.Add(endPage);
-                return ladder;
-            }
+        System.Console.WriteLine(pq.Dequeue().priority);
 
-            foreach (string link in linksForLastPage)
-            {
-                if (!visitedPages.Contains(link))
-                {
-                    Ladder newLadder = firstLadder;
-                    firstLadder.ladder.Add(link);
-                    visitedPages.Add(link);
-                    pq.Enqueue(newLadder);
-                    int c = pq.count;
-                    System.Console.WriteLine(c);
-                }
-            }
-        }
 
 
 
